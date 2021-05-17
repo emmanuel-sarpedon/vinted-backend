@@ -1,0 +1,75 @@
+const express = require("express");
+const router = express.Router();
+
+const SHA256 = require("crypto-js/sha256");
+const encBase64 = require("crypto-js/enc-base64");
+const uid2 = require("uid2");
+
+const User = require("../models/User");
+
+router.post("/user/signup", async (req, res) => {
+  try {
+    if (
+      !(await User.findOne({ email: req.fields.email })) &&
+      req.fields.username
+    ) {
+      const password = req.fields.password;
+      const salt = uid2(16);
+      const hash = SHA256(password + salt).toString(encBase64);
+      const token = uid2(16);
+
+      const newUser = new User({
+        email: req.fields.email,
+        account: {
+          username: req.fields.username,
+          phone: req.fields.phone,
+          avatar: null,
+        },
+        token: token,
+        hash: hash,
+        salt: salt,
+      });
+
+      await newUser.save();
+
+      res.status(200).json(newUser);
+    } else if (await User.findOne({ email: req.fields.email })) {
+      res.status(400).json({ error: "This email is already used" });
+    } else if (!req.fields.username) {
+      res.status(400).json({ error: "Username is required" });
+    }
+  } catch (err) {
+    res.status(404).json(err.message);
+  }
+  // console.log(`${password}\n${salt}\n${hash}\n${token}`);
+  // res.status(200).json({ message: "ok" });
+});
+
+router.post("/user/login", async (req, res) => {
+  try {
+    const logInEmail = req.fields.email;
+    const logInPassword = req.fields.password;
+    const user = await User.findOne({ email: logInEmail });
+
+    if (user) {
+      const logInHash = SHA256(logInPassword + user.salt).toString(encBase64);
+      if (logInHash === user.hash) {
+        res.status(200).json({
+          _id: user._id,
+          token: user.token,
+          account: user.account,
+        });
+      } else {
+        res.status(400).json({ error: "Wrong ID" });
+      }
+      //res.json(logInHash);
+      //res.status(200).json({ message: "Mail OK" });
+    } else {
+      res.status(400).json({ error: "Unknown email" });
+    }
+  } catch (err) {
+    res.status(404).json(err.message);
+  }
+});
+
+module.exports = router;
