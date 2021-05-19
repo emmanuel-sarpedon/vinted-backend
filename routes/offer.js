@@ -102,4 +102,76 @@ router.get("/offer/:id", isAuthenticated, async (req, res) => {
     res.json(err.message);
   }
 });
+
+router.put("/offer/update", isAuthenticated, async (req, res) => {
+  try {
+    const offerToUpdate = await Offer.findOne({
+      owner: req.user.id,
+      _id: req.fields.id,
+    });
+
+    if (offerToUpdate) {
+      const brand = req.fields.brand;
+      const size = req.fields.size;
+      const condition = req.fields.condition;
+      const color = req.fields.color;
+      const city = req.fields.city;
+      const name = req.fields.name;
+      const description = req.fields.description;
+      const price = req.fields.price;
+      const picture = req.files.picture;
+
+      if (brand) {
+        offerToUpdate.product_details[0] = { MARQUE: brand };
+      }
+
+      if (size) {
+        offerToUpdate.product_details[1] = { TAILLE: size };
+      }
+
+      if (condition) {
+        offerToUpdate.product_details[2] = { ETAT: condition };
+      }
+
+      if (color) {
+        offerToUpdate.product_details[3] = { COULEUR: color };
+      }
+
+      if (city) {
+        offerToUpdate.product_details[4] = { EMPLACEMENT: city };
+      }
+
+      if (name) {
+        offerToUpdate.product_name = name;
+      }
+
+      if (description) {
+        offerToUpdate.product_description = description;
+      }
+
+      if (price) {
+        offerToUpdate.product_price = price;
+      }
+
+      if (picture) {
+        let pictureToUpload = req.files.picture.path;
+        const result = await cloudinary.uploader.upload(pictureToUpload, {
+          folder: "/vinted/offers/" + offerToUpdate._id,
+        });
+        offerToUpdate.product_image = result;
+      }
+
+      offerToUpdate.markModified("product_details");
+
+      await offerToUpdate.save();
+
+      res.status(200).json({ message: "Update OK", offer: offerToUpdate });
+    } else {
+      res.status(400).json({ message: "Offer not found" });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
