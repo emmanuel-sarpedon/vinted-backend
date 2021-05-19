@@ -174,4 +174,23 @@ router.put("/offer/update", isAuthenticated, async (req, res) => {
   }
 });
 
+router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
+  try {
+    const offerToDelete = await Offer.findOneAndDelete({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+
+    if (offerToDelete) {
+      res
+        .status(200)
+        .json({ message: "Offer deleted", offerDeleted: offerToDelete });
+    } else {
+      res.status(400).json({ message: "Offer not found" });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
