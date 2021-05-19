@@ -1,5 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
@@ -29,6 +36,15 @@ router.post("/user/signup", async (req, res) => {
         hash: hash,
         salt: salt,
       });
+
+      if (req.files.avatar) {
+        let pictureToUpload = req.files.avatar.path;
+        const result = await cloudinary.uploader.upload(pictureToUpload, {
+          folder: "/vinted/users/" + newUser._id,
+        });
+
+        newUser.account.avatar = result;
+      }
 
       await newUser.save();
 
