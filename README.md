@@ -1,6 +1,8 @@
-## Documentation en cours de rédaction ⚙️
+### Documentation en cours de rédaction ⚙️
 
----
+#### Repo - Github : <https://github.com/emmanuel-sarpedon/vinted>
+
+#### API : <https://api-vinted.herokuapp.com/>
 
 # Bienvenue sur mon API Vinted !
 
@@ -27,6 +29,10 @@ Vous ne pourrez pas utiliser les fonctionnalités sur votre `localhost`car l'API
 Pour simuler les requêtes HTTP, vous pouvez utiliser un utilitaire comme Postman : <https://www.postman.com/downloads/>
 
 D'ailleurs, dans la suite de la documentation, les illustrations utilisées sont des captures d'écrans de l'interface graphique de Postman.
+
+Le front-end de la réplique Vinted est en cours de développement. Pour suivre son avancement, il faut se rendre sur ce repo : <https://github.com/emmanuel-sarpedon/vinted-front-end>
+
+---
 
 ## 1 - Inscription d'un nouvel utilisateur
 
@@ -361,4 +367,64 @@ offer/update
 
 ```
 offer/delete/:id
+```
+
+- Exemple de requête
+
+```
+offer/delete/60f667d3a865080015e73b58
+```
+
+- Exemple de réponse
+
+```json
+{
+  "message": "Offer deleted",
+  "offerDeleted": {
+    "product_details": [
+      {
+        "MARQUE": "Lacoste - France"
+      },
+      {
+        "TAILLE": "M"
+      },
+      {
+        "ÉTAT": "Neuf"
+      },
+      {
+        "COULEUR": "Vert"
+      },
+      {
+        "EMPLACEMENT": "Paris"
+      }
+    ],
+    "_id": "60f667d3a865080015e73b58",
+    "product_name": "Polo Lacoste",
+    "product_description": "Polo Lacoste en parfait été",
+    "product_price": 50,
+    "owner": "60f660cfa865080015e73b54",
+    "product_image": {
+      "asset_id": "f1ed7487fce6556a28bb256f4aa36e30",
+      "public_id": "vinted/offers/60f667d3a865080015e73b58/nffqt6bj2lkxgtxiafaz",
+      "version": 1626761172,
+      "version_id": "2859a44bc503722c2efd9e0b59686de1",
+      "signature": "19a4c96458877bdd0c6da80fbc19eac5a946002c",
+      "width": 225,
+      "height": 225,
+      "format": "jpg",
+      "resource_type": "image",
+      "created_at": "2021-07-20T06:06:12Z",
+      "tags": [],
+      "bytes": 4228,
+      "type": "upload",
+      "etag": "8fc66ba662369e0d4824d59b6a9359f5",
+      "placeholder": false,
+      "url": "http://res.cloudinary.com/manu-sarp/image/upload/v1626761172/vinted/offers/60f667d3a865080015e73b58/nffqt6bj2lkxgtxiafaz.jpg",
+      "secure_url": "https://res.cloudinary.com/manu-sarp/image/upload/v1626761172/vinted/offers/60f667d3a865080015e73b58/nffqt6bj2lkxgtxiafaz.jpg",
+      "original_filename": "upload_57e8c4ca0a05afd3b32fac7bd158e4ae",
+      "api_key": "311651436216244"
+    },
+    "__v": 1
+  }
+}
 ```
