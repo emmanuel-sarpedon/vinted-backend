@@ -18,7 +18,10 @@ router.post("/user/signup", async (req, res) => {
   try {
     if (
       !(await User.findOne({ email: req.fields.email })) &&
-      req.fields.username
+      req.fields.username &&
+      req.fields.password &&
+      req.fields.email &&
+      req.fields.phone
     ) {
       const password = req.fields.password;
       const salt = uid2(16);
@@ -53,6 +56,12 @@ router.post("/user/signup", async (req, res) => {
       res.status(400).json({ error: "This email is already used" });
     } else if (!req.fields.username) {
       res.status(400).json({ error: "Username is required" });
+    } else if (!req.fields.password) {
+      res.status(400).json({ error: "Password is required" });
+    } else if (!req.fields.email) {
+      res.status(400).json({ error: "Email is required" });
+    } else if (!req.fields.phone) {
+      res.status(400).json({ error: "Phone is required" });
     }
   } catch (err) {
     res.status(404).json(err.message);
