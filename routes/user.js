@@ -51,7 +51,12 @@ router.post("/user/signup", async (req, res) => {
 
       await newUser.save();
 
-      res.status(200).json(newUser);
+      res.status(200).json({
+        id: newUser._id,
+        email: newUser.email,
+        account: newUser.account,
+        token: newUser.token,
+      });
     } else if (await User.findOne({ email: req.fields.email })) {
       res.status(400).json({ error: "This email is already used" });
     } else if (!req.fields.username) {
@@ -66,8 +71,6 @@ router.post("/user/signup", async (req, res) => {
   } catch (err) {
     res.status(404).json(err.message);
   }
-  // console.log(`${password}\n${salt}\n${hash}\n${token}`);
-  // res.status(200).json({ message: "ok" });
 });
 
 router.post("/user/login", async (req, res) => {
