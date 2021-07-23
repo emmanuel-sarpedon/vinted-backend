@@ -73,6 +73,7 @@ router.get("/offers", isAuthenticated, async (req, res) => {
     }
 
     const offers = await Offer.find(filters)
+      .populate("owner")
       .sort(sorting)
       .limit(resultsPerPage)
       .skip(skip);
