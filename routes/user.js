@@ -58,15 +58,15 @@ router.post("/user/signup", async (req, res) => {
         token: newUser.token,
       });
     } else if (await User.findOne({ email: req.fields.email })) {
-      res.status(400).json({ error: "This email is already used" });
+      res.status(461).json({ error: "This email is already used" });
     } else if (!req.fields.username) {
-      res.status(400).json({ error: "Username is required" });
+      res.status(462).json({ error: "Username is required" });
     } else if (!req.fields.password) {
-      res.status(400).json({ error: "Password is required" });
+      res.status(463).json({ error: "Password is required" });
     } else if (!req.fields.email) {
-      res.status(400).json({ error: "Email is required" });
+      res.status(464).json({ error: "Email is required" });
     } else if (!req.fields.phone) {
-      res.status(400).json({ error: "Phone is required" });
+      res.status(465).json({ error: "Phone is required" });
     }
   } catch (err) {
     res.status(404).json(err.message);
