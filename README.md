@@ -1,6 +1,6 @@
 ### Documentation en cours de rédaction ⚙️
 
-#### Repo - Github : <https://github.com/emmanuel-sarpedon/vinted>
+#### Repo - Github : <https://github.com/emmanuel-sarpedon/vinted-backend>
 
 #### API : <https://api-vinted.herokuapp.com/>
 
