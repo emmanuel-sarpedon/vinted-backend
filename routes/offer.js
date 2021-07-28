@@ -43,7 +43,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/offers", isAuthenticated, async (req, res) => {
+router.get("/offers", async (req, res) => {
   try {
     const { title, priceMin, priceMax, sort, page } = req.query;
 
