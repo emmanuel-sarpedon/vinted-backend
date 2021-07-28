@@ -66,7 +66,7 @@ router.get("/offers", async (req, res) => {
     }
 
     if (sort) {
-      sorting.product_name = sort;
+      sorting.product_price = sort.split("-")[1];
     }
 
     if (page) {
