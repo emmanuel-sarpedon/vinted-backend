@@ -49,7 +49,7 @@ router.get("/offers", async (req, res) => {
 
     const filters = {};
     const sorting = {};
-    const resultsPerPage = limit ? limit : 10;
+    const resultsPerPage = limit ? parseInt(limit) : 10;
 
     let skip = 0;
 
@@ -69,8 +69,8 @@ router.get("/offers", async (req, res) => {
       sorting.product_name = sort;
     }
 
-    if (page > 0) {
-      skip = limit * page - resultsPerPage;
+    if (page) {
+      skip = resultsPerPage * parseInt(page) - resultsPerPage;
     }
 
     const offers = await Offer.find(filters)
@@ -79,9 +79,7 @@ router.get("/offers", async (req, res) => {
       .limit(resultsPerPage)
       .skip(skip);
 
-    const count = await Offer.countDocuments(filters, (err, count) => {
-      console.log(count);
-    });
+    const count = await Offer.countDocuments(filters);
 
     res.status(200).json({ count: count, offers: offers });
   } catch (error) {
