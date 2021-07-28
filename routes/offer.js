@@ -45,11 +45,12 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
 
 router.get("/offers", async (req, res) => {
   try {
-    const { title, priceMin, priceMax, sort, page } = req.query;
+    const { title, priceMin, priceMax, sort, page, limit } = req.query;
 
     const filters = {};
     const sorting = {};
-    const resultsPerPage = 3;
+    const resultsPerPage = limit ? limit : 10;
+
     let skip = 0;
 
     if (title) {
@@ -69,7 +70,7 @@ router.get("/offers", async (req, res) => {
     }
 
     if (page > 0) {
-      skip = resultsPerPage * page - resultsPerPage;
+      skip = limit * page - resultsPerPage;
     }
 
     const offers = await Offer.find(filters)
@@ -77,7 +78,6 @@ router.get("/offers", async (req, res) => {
       .sort(sorting)
       .limit(resultsPerPage)
       .skip(skip);
-    //.select("product_name product_description product_price");
 
     const count = await Offer.countDocuments(filters, (err, count) => {
       console.log(count);
@@ -98,7 +98,6 @@ router.get("/offer/:id", async (req, res) => {
     } else {
       res.status(401).json({ message: "No result" });
     }
-    //res.json(req.params.id);
   } catch (err) {
     res.json(err.message);
   }
