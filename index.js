@@ -26,8 +26,10 @@ cloudinary.config({
 
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
+const paymentRoutes = require("./routes/payment");
 app.use(userRoutes);
 app.use(offerRoutes);
+app.use(paymentRoutes);
 
 app.get("/", (req, res) => {
   const md = fs.readFileSync("./README.md", "utf8");
@@ -51,6 +53,7 @@ app.get("/", (req, res) => {
       body {
         max-width: 1100px;
         margin: 0 auto;
+        padding: 50px;
       }
 
       li {

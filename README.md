@@ -21,6 +21,7 @@ Le back-end a été codé en Javascript avec les packages npm suivants :
 - Mongoose pour la création de modèles et la mise-à-jour de notre base de données MongoDB
 - Cloudinary pour le stockage des photos
 - Crypto-JS pour le hachage des mots de passes
+- Stripe pour le paiement
 
 Si vous souhaitez tester l'API, merci d'utiliser cette adresse : <https://api-vinted.herokuapp.com/>.
 
