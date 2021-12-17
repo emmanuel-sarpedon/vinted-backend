@@ -4,6 +4,15 @@
 
 #### API : <https://api-vinted.herokuapp.com/>
 
+---
+# Docker
+```zsh
+chmod u+x ./docker-*.sh #give execution privileges - only on first use
+./docker-build.sh #build image - only on first use
+
+./docker-run.sh #run image
+```
+---
 # Bienvenue sur mon API Vinted !
 
 Cet API est une réplique des fonctionnalités de base du site Vinted, à savoir :
@@ -285,7 +294,7 @@ offer/update
 
 - Au moins un de ses paramètres est attendu :
 
-```javascript
+```json
 {
       "brand": String,
       "size": String,
